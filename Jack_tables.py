@@ -6,7 +6,7 @@ class CreateTables(object):
     """create tables"""
     def __init__(self):
         self.engine = create_engine(
-            "mysql+pymysql://root:@localhost/Pokedex",
+            "mysql+pymysql://root:@localhost/Pokedex", "change your local path"
             echo=True)
         self.metadata = MetaData(self.engine)
         self.conn = self.engine.connect()
