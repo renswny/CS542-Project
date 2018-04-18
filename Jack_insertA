@@ -1,0 +1,88 @@
+import pymysql
+import csv
+from sqlalchemy import *
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine("mysql+pymysql://root:@localhost/Pokedex",echo=True)
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+Base = declarative_base()
+
+
+
+class HP(Base):
+    __tablename__ = 'hp'
+    hp = Column(String,primary_key=True)
+    hp_percentile = Column(Integer,primary_key=False)
+
+hp_file = open('/Users/tangjie/downloads/database/2_hp.csv', 'r')
+hp_reader = csv.reader(hp_file)
+count = 0
+
+for lines in hp_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = HP(hp=lines[0],hp_percentile=lines[1])
+        session.add(temp)
+
+
+class Attack(Base):
+    __tablename__ = 'attack'
+    attack = Column(String,primary_key=True)
+    attack_percentile = Column(Integer,primary_key=False)
+
+attack_file = open('/Users/tangjie/downloads/database/3_attack.csv', 'r')
+att_reader = csv.reader(attack_file)
+count = 0
+
+for lines in att_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = Attack(attack=lines[0],attack_percentile=lines[1])
+        session.add(temp)
+
+
+class Defense(Base):
+    __tablename__ = 'defense'
+    defense = Column(String,primary_key=True)
+    defense_percentile = Column(Integer,primary_key=False)
+
+def_file = open('/Users/tangjie/downloads/database/4_defense.csv', 'r')
+def_reader = csv.reader(def_file)
+count = 0
+for lines in def_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = Defense(defense=lines[0],defense_percentile=lines[1])
+        session.add(temp)
+
+class Speed(Base):
+    __tablename__ = 'speed'
+    speed = Column(String,primary_key=True)
+    speed_percentile = Column(Integer,primary_key=False)
+
+spe_file = open('/Users/tangjie/downloads/database/5_speed.csv', 'r')
+spe_reader = csv.reader(spe_file)
+count = 0
+for lines in spe_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = Speed(speed=lines[0],speed_percentile=lines[1])
+        session.add(temp)
+
+
+
+
+session.commit()
