@@ -75,7 +75,7 @@ class CreateTables(object):
             Column('height', REAL, nullable=False),
             Column('weight', REAL, nullable=False),
             Column('capture_rate', REAL, nullable=False),
-            Column('classfication', String(40), nullable=False),
+            Column('classfication', String(80), nullable=False),
             Column('generation', Integer, nullable=False),
             Column('male_per', REAL, nullable=False),
             Column('hp', String(10), ForeignKey("hp.hp"), nullable=False),
