@@ -15,7 +15,7 @@ class CreateTables(object):
         ability = Table(
             "ability", self.metadata,
             Column('aid', String(10), primary_key=True),
-            Column('aname', String(20), nullable=False),
+            Column('ability', String(20), nullable=False),
         )
         return ability
 
@@ -23,7 +23,7 @@ class CreateTables(object):
         attack = Table(
             "attack", self.metadata,
             Column('attack', String(10), primary_key=True),
-            Column('att_percentile', Integer, nullable=False),
+            Column('attack_percentile', Integer, nullable=False),
         )
         return attack
 
@@ -31,7 +31,7 @@ class CreateTables(object):
         defense = Table(
             "defense", self.metadata,
             Column('defense', String(10), primary_key=True),
-            Column('def_percentile', INTEGER, nullable=False),
+            Column('defense_percentile', INTEGER, nullable=False),
         )
         return defense
 
@@ -47,7 +47,7 @@ class CreateTables(object):
         speed = Table(
             "speed", self.metadata,
             Column('speed', String(10), primary_key=True),
-            Column('spe_percentile', Integer, nullable=False),
+            Column('speed_percentile', Integer, nullable=False),
         )
         return speed
 
@@ -126,4 +126,3 @@ class CreateTables(object):
 if __name__ == '__main__':
     test = CreateTables()
     test.run()
-
