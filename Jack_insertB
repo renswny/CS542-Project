@@ -1,0 +1,153 @@
+import pymysql
+import csv
+from sqlalchemy import *
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine("mysql+pymysql://root:@localhost/Pokedex",echo=True)
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+Base = declarative_base()
+
+class Pokemon(Base):
+    __tablename__ = 'pokemon'
+    pokedex = Column(String, primary_key=True)
+    name = Column(String)
+    height = Column(REAL)
+    weight = Column(REAL)
+    capture_rate = Column(REAL)
+    classfication = Column(String)
+    generation = Column(Integer)
+    male_per = Column(REAL)
+    hp = Column(String)
+    attack = Column(String)
+    defense = Column(String)
+    speed = Column(String)
+
+
+poke_file = open('/Users/tangjie/downloads/database/1_Pokemon.csv', 'r')
+poke_reader = csv.reader(poke_file)
+count = 0
+
+for lines in poke_reader:
+    if count==0:
+        count += 1
+        continue
+    elif count==6:
+        break
+    else:
+        print(lines)
+        temp = Pokemon(pokedex=lines[0],name=lines[1],height=lines[2],
+                       weight=lines[3],capture_rate=lines[4],classfication=lines[5],
+                       generation=lines[6],male_per=lines[7],hp=lines[8],
+                       attack=lines[9],defense=lines[10],speed=lines[11])
+        session.add(temp)
+
+"""
+class Evolve(Base):
+    __tablename__ = 'evolve'
+    pokedex_from = Column(String, primary_key=True)
+    pokedex_to = Column(String, primary_key=True)
+
+evolve_file = open('/Users/tangjie/downloads/database/6_evolve.csv', 'r')
+evolve_reader = csv.reader(evolve_file)
+count = 0
+
+for lines in evolve_reader:
+    if count == 0:
+        count += 1
+        continue
+    else:
+        temp = Evolve(pokedex_from=lines[0], pokedex_to=lines[1])
+        session.add(temp)
+
+class Type(Base):
+    __tablename__ = 'type'
+    tid = Column(String,primary_key=True)
+    type = Column(String,primary_key=False)
+
+type_file = open('/Users/tangjie/downloads/database/7_Type.csv', 'r')
+type_reader = csv.reader(type_file)
+count = 0
+
+for lines in type_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = Type(tid=lines[0],type=lines[1])
+        session.add(temp)
+
+class Against(Base):
+    __tablename__ = 'Against'
+    tid_strong_against = Column(String,primary_key=True)
+    tid_weak_against = Column(String,primary_key=True)
+
+against_file = open('/Users/tangjie/downloads/database/8_Against.csv', 'r')
+against_reader = csv.reader(against_file)
+count = 0
+
+for lines in against_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = Against(tid_strong_against=lines[0],tid_weak_against=lines[1])
+        session.add(temp)
+
+class betype(Base):
+    __tablename__ = 'betype'
+    pokedex = Column(String,primary_key=True)
+    tid = Column(String,primary_key=True)
+
+betype_file = open('/Users/tangjie/downloads/database/9_Be_Type.csv', 'r')
+betype_reader = csv.reader(betype_file)
+count = 0
+
+for lines in betype_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = betype(pokedex=lines[0],tid=lines[1])
+        session.add(temp)
+
+
+class Ability(Base):
+    __tablename__ = 'ability'
+    aid = Column(String,primary_key=True)
+    ability = Column(String,primary_key=False)
+
+ability_file = open('/Users/tangjie/downloads/database/10_Ability.csv', 'r')
+ability_reader = csv.reader(ability_file)
+count = 0
+
+for lines in ability_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = Ability(aid=lines[0],ability=lines[1])
+        session.add(temp)
+
+class capable(Base):
+    __tablename__ = 'capable'
+    pokedex = Column(String,primary_key=True)
+    aid = Column(String,primary_key=True)
+
+cap_file = open('/Users/tangjie/downloads/database/11_Capable.csv', 'r')
+cap_reader = csv.reader(cap_file)
+count = 0
+for lines in cap_reader:
+    if count==0:
+        count += 1
+        continue
+    else:
+        temp = capable(pokedex=lines[0],aid=lines[1])
+        session.add(temp)
+
+"""
+
+session.commit()
