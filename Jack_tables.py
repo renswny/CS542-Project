@@ -11,6 +11,62 @@ class CreateTables(object):
         self.metadata = MetaData(self.engine)
         self.conn = self.engine.connect()
 
+    def _ability(self):
+        ability = Table(
+            "ability", self.metadata,
+            Column('aid', String(10), primary_key=True),
+            Column('aname', String(20), nullable=False),
+        )
+        return ability
+
+    def _attack(self):
+        attack = Table(
+            "attack", self.metadata,
+            Column('attack', String(10), primary_key=True),
+            Column('att_percentile', Integer, nullable=False),
+        )
+        return attack
+
+    def _defense(self):
+        defense = Table(
+            "defense", self.metadata,
+            Column('defense', String(10), primary_key=True),
+            Column('def_percentile', INTEGER, nullable=False),
+        )
+        return defense
+
+    def _HP(self):
+        hp = Table(
+            "hp", self.metadata,
+            Column('hp', String(10), primary_key=True),
+            Column('hp_percentile', Integer, nullable=False),
+        )
+        return hp
+
+    def _speed(self):
+        speed = Table(
+            "speed", self.metadata,
+            Column('speed', String(10), primary_key=True),
+            Column('spe_percentile', Integer, nullable=False),
+        )
+        return speed
+
+    def _type(self):
+        type = Table(
+            "type", self.metadata,
+            Column('tid', String(10), primary_key=True),
+            Column('type', String(20), nullable=False),
+        )
+        return type
+
+    def _against(self):
+        against = Table(
+            "against", self.metadata,
+            Column('tid_strong_against', String(10), primary_key=True),
+            Column('tid_weak_against', String(10), primary_key=True),
+        )
+        return against
+
     def _pokemon(self):
         pokemon = Table(
             "pokemon", self.metadata,
@@ -22,34 +78,52 @@ class CreateTables(object):
             Column('classfication', String(40), nullable=False),
             Column('generation', Integer, nullable=False),
             Column('male_per', REAL, nullable=False),
+            Column('hp', String(10), ForeignKey("hp.hp"), nullable=False),
+            Column('attack', String(10), ForeignKey("attack.attack"), nullable=False),
+            Column('defense', String(10), ForeignKey("defense.defense"), nullable=False),
+            Column('speed', String(10), ForeignKey("speed.speed"), nullable=False),
         )
         return pokemon
 
-    def _HP(self):
-        have_hp = Table(
-            "have_hp", self.metadata,
-            Column('hp', String(10), primary_key=True),
-            Column('pokedex', String(10), primary_key=True, ForeignKey("pokemon.pokedex"), nullable=False),
-            Column('hp_percentile', Integer, nullable=False),
-        ) 
-        return have_hp
-
-    def _attack(self):
-        have_attack = Table(
-            "have_attack", self.metadata,
-            Column('attack', String(10), primary_key=True),
-            Column('pokedex', String(10), primary_key=True, ForeignKey("pokemon.pokedex"), nullable=False),
-            Column('att_percentile', Integer, nullable=False),
+    def _evolve(self):
+        evolve = Table(
+            "evolve", self.metadata,
+            Column('pokedex_from', String(10), primary_key=True),
+            Column('pokedex_to', String(10), primary_key=True),
         )
-        return have_attack
+        return evolve
 
+    def _betype(self):
+        betype = Table(
+            "betype", self.metadata,
+            Column('pokedex', String(10), primary_key=True),
+            Column('tid', String(10), primary_key=True)
+        )
+        return betype
+
+    def _capable(self):
+        capable = Table(
+            "capable", self.metadata,
+            Column('pokedex', String(10), primary_key=True),
+            Column('aid', String(10), primary_key=True)
+        )
+        return capable
 
     def run(self):
-        pokemon = self._pokemon()
-        have_hp = self._HP()
+        ability = self._ability()
         attack = self._attack()
+        defense = self._defense()
+        hp = self._HP()
+        speed = self._speed()
+        poketype = self._type()
+        against = self._against()
+        pokemon = self._pokemon()
+        evolve = self._evolve()
+        betype = self._betype()
+        capable = self._capable()
         self.metadata.create_all(self.engine)
 
 if __name__ == '__main__':
     test = CreateTables()
     test.run()
+
