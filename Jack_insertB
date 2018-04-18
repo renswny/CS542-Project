@@ -45,7 +45,7 @@ for lines in poke_reader:
                        attack=lines[9],defense=lines[10],speed=lines[11])
         session.add(temp)
 
-"""
+
 class Evolve(Base):
     __tablename__ = 'evolve'
     pokedex_from = Column(String, primary_key=True)
@@ -148,6 +148,6 @@ for lines in cap_reader:
         temp = capable(pokedex=lines[0],aid=lines[1])
         session.add(temp)
 
-"""
+
 
 session.commit()
